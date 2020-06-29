@@ -6,6 +6,8 @@ const unsigned int interval = 1000;
 /* text to show if no value can be retrieved */
 static const char unknown_str[] = "n/a";
 
+static const char volcmd[] = "amixer sget Master | grep 'Right:' | awk -F'[][]' '{ print $2 }'";
+
 /* maximum output string length */
 #define MAXLEN 2048
 
@@ -23,7 +25,7 @@ static const char unknown_str[] = "n/a";
  * datetime            date and time                   format string (%F %T)
  * disk_free           free disk space in GB           mountpoint path (/)
  * disk_perc           disk usage in percent           mountpoint path (/)
- * disk_total          total disk space in GB          mountpoint path (/")
+ * disk_total          total disk space in GB          mountpoint path (/)
  * disk_used           used disk space in GB           mountpoint path (/)
  * entropy             available entropy               NULL
  * gid                 GID of current user             NULL
@@ -63,5 +65,10 @@ static const char unknown_str[] = "n/a";
  */
 static const struct arg args[] = {
 	/* function format          argument */
-	{ datetime, "%s",           "%F %T" },
+	{ datetime,   " %s | "		,    "%e.%m.%Y. %R"	},
+	{ cpu_perc,   "%3s%% | "	,    NULL			},
+	{ disk_free,  "%s | "		,    "/"			},
+	{ keymap,     "%9s | "		,    NULL			},
+	{ wifi_essid, "%s | "		,    "wlp0s20u3"	},
+	{ netspeed_rx," %8s "		,    "wlp0s20u3"	},
 };
